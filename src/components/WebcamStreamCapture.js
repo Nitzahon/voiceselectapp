@@ -133,7 +133,7 @@ export default function WebcamStreamCapture() {
         </div>
       ) : null}
       <div className="row justify-content-md-center">
-        {recogState ? "Speech Recognition is active and will remain so for 10 seconds or until a command is spoken" : null}
+        {recogState ? "Speech Recognition is active" : null}
       </div>
 
       <Webcam

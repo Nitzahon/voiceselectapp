@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { useSelector, useDispatch } from 'react-redux';
 import * as recordingActions from '../Redux/actions/recordingActions';
@@ -12,8 +12,6 @@ const Dictaphone = ({ sendAns, voiceCommands }) => {
   //A Check if the speech recognition is currently running
   const { listening } = useSpeechRecognition();
   const isRecog = useSelector(state => state.user.isRecog);
-  const duration = useSelector(state => state.user.timeout);
-  const timeout= useRef(null)
   const dispatch = useDispatch();
   //A call to start listening
   // const handleStart = () => {
@@ -43,7 +41,6 @@ const Dictaphone = ({ sendAns, voiceCommands }) => {
   const videoCommandCallback = (command) => {
     sendAns(command);
     sendEmail(command);
-    clearTimeout(timeout.current);
     resetTranscript();
   }
   // const mailAlert = (command) => {
@@ -101,18 +98,18 @@ const Dictaphone = ({ sendAns, voiceCommands }) => {
       SpeechRecognition.startListening({
         language: dictLanguage
       });
-      timeout.current = setTimeout(() => {
-        SpeechRecognition.stopListening();
-      }, duration*1000);
+      dispatch(recordingActions.recogState(true));
     }
     // else if(!isRecog && listening){
     //   SpeechRecognition.stopListening();
     //   console.log("Stopped")
     // }
-  }, [isRecog, listening, dictLanguage, duration])
+  }, [isRecog, listening, dictLanguage, dispatch])
 
   useEffect(() => {
-    dispatch(recordingActions.recogState(listening));
+    if(!listening){
+      dispatch(recordingActions.recogState(false));
+    }
   }, [listening, dispatch])
   //don't return if speech regonition is not supported
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
