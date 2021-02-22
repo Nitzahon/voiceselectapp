@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Dictaphone from "./Dictaphone";
 // import surveyJson from "../consts/surveyJSON.json"
-import commands from "../const/commands"
+import commands from "../const/commands.json"
 import Checkbox from "./Checkbox"
+import WebcamStreamCapture from './WebcamStreamCapture';
 
 export default class Frame extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            checkboxes: commands.reduce(
+            checkboxes: commands.commands.reduce(
                 (options, option) => ({
                     ...options,
                     [option]: false
@@ -20,7 +21,6 @@ export default class Frame extends Component {
         //add localization 
 
 
-        console.log(commands)
     }
 
     sendAns = (answer) => {
@@ -50,7 +50,7 @@ export default class Frame extends Component {
             key={option}
         />
     );
-    createCheckboxes = () => commands.map(this.createCheckbox);
+    createCheckboxes = () => commands.commands.map(this.createCheckbox);
 
 
     render() {
@@ -61,7 +61,8 @@ export default class Frame extends Component {
 
                 {this.createCheckboxes()}
                 <div className="dict">
-                    <Dictaphone sendAns={this.sendAns.bind(this)} voiceCommands={commands} />
+                    <WebcamStreamCapture/>
+                    <Dictaphone sendAns={this.sendAns.bind(this)} voiceCommands={commands.commands} />
                 </div>
 
             </div>
