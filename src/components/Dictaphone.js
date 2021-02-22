@@ -22,7 +22,8 @@ const Dictaphone = ({ sendAns, voiceCommands }) => {
   const sendEmail=(message)=>{
     let d = new Date();
     let templateParams = {
-      from_name: 'Biomarkerz',
+      from_name: 'Biomarkerz.com',
+      to_name:'nadavga@gmail.com',
       message: `the command ${message}, was sent on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`
   };
     

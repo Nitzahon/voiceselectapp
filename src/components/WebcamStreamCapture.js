@@ -104,7 +104,7 @@ export default function WebcamStreamCapture() {
       <div className="row">
       <div className="col">
         </div>
-        <div className="col">
+        <div className="col" hidden>
           <Select
             className="deviceSelect"
             options={audioDevices}
